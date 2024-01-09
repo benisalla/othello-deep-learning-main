@@ -1,7 +1,7 @@
 import torch
 from torch.utils.data import DataLoader
 from Const import BOARD_SIZE
-from model.MLP import MLP
+from model.networks_mlp_e2305457 import MLP
 from utile import CustomDataset, train_function
 
 ##############################################################

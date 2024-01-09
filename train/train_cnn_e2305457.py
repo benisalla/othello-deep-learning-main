@@ -1,7 +1,7 @@
 import torch
 from torch.utils.data import DataLoader
 from Const import BOARD_SIZE
-from model.LSTM import LSTMs
+from model.networks_cnn_e2305457 import CNN
 from utile import CustomDataset, train_function
 
 ##############################################################
@@ -15,9 +15,9 @@ print('Running on ' + str(device))
 ##############################################################
 lr = 0.001
 num_epoch = 100
-early_stop = 40
+early_stop = 20
 batch_size = 1000
-len_samples = 10
+len_samples = 1
 
 ##############################################################
 #                           data params                      #
@@ -53,11 +53,9 @@ Config = {
     'num_epoch': num_epoch,
     "earlyStopping": early_stop,
     "len_input_seq": len_samples,
-    "LSTM_conf": {},
 }
-Config["LSTM_conf"]["hidden_dim"] = 128
 
-model = LSTMs(Config).to(device)
+model = CNN(Config).to(device)
 
 # let's see number of params in our little model
 print("\nNumber of parameters: %s\n" % model.count_parameters())
