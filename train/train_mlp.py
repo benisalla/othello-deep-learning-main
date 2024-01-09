@@ -24,8 +24,8 @@ len_samples = 1
 ##############################################################
 data_dir = "../dataset/"
 chpts_path = "../pt_models/model"
-dev_path = "../ds-splits/train.txt"
-train_path = "../ds-splits/dev.txt"
+dev_path = "../ds-splits/dev.txt"
+train_path = "../ds-splits/train.txt"
 
 ##############################################################
 #                       create datasets                      #

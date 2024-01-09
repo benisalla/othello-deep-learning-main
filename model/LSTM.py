@@ -13,6 +13,7 @@ class LSTMs(nn.Module):
         self.hidden_dim = conf["LSTM_conf"]["hidden_dim"]
 
         self.lstm = nn.LSTM(self.board_size * self.board_size, self.hidden_dim, batch_first=True)
+
         self.hidden2output = nn.Linear(self.hidden_dim * 2, self.board_size * self.board_size)
         self.dropout = nn.Dropout(p=0.2)
 
@@ -21,7 +22,7 @@ class LSTMs(nn.Module):
         lstm_out, (hn, cn) = self.lstm(seq)
         out = self.hidden2output(torch.cat((hn, cn), -1))
         out = F.relu(out)
-        return F.softmax(out, dim=1).squeeze()
+        return F.softmax(out, dim=1).squeeze() # PROBABILITY DIST
 
     def count_parameters(self):
         return sum(p.numel() for p in self.parameters() if p.requires_grad)
