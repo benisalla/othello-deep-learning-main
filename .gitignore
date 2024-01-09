@@ -1,0 +1,40 @@
+# Python-specific
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual environments
+venv/
+env/
+
+# Jupyter Notebook-specific
+.ipynb_checkpoints/
+
+# Machine Learning and Deep Learning specific
+*.h5
+*.pt
+*.ckpt
+*.pth
+model_weights/
+model_checkpoints/
+
+# Ignore large datasets or data files
+large_data/
+
+# Ignore any compiled Python files
+*.pyc
+*.pyo
+*.pyd
+
+# macOS-specific
+.DS_Store
+
+# IDE-specific files
+.idea/
+.vscode/
+
+# System-specific files
+Thumbs.db
+desktop.ini
