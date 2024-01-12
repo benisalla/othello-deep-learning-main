@@ -6,7 +6,7 @@ device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("
 batch_size = 1000
 data_dir = "./dataset/"
 chpts_path = "model_1.pt"
-data_path = "./ds-splits/train.txt"
+test_path = "./ds-splits/test.txt"
 
 # testing CNN model
 test_model(

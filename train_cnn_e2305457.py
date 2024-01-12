@@ -1,8 +1,8 @@
 import torch
 from torch.utils.data import DataLoader
 from Const import BOARD_SIZE
-from model.networks_cnn_e2305457 import CNN
-from utile import CustomDataset, train_function
+from networks_e2305457 import CNN
+from utile import CustomDataset, train_function, test_model
 
 ##############################################################
 #          choosing on which device to run (GPU or CPU)      #
@@ -22,10 +22,11 @@ len_samples = 1
 ##############################################################
 #                           data params                      #
 ##############################################################
-data_dir = "../dataset/"
-chpts_path = "../pt_models/model"
-dev_path = "../ds-splits/train.txt"
-train_path = "../ds-splits/dev.txt"
+data_dir = "./dataset/"
+chpts_dir = "./pt_models/model"
+test_path = "./ds-splits/test.txt"
+dev_path = "./ds-splits/dev.txt"
+train_path = "./ds-splits/train.txt"
 
 ##############################################################
 #                       create datasets                      #
@@ -49,7 +50,7 @@ dev_loader = DataLoader(dev_ds, batch_size=batch_size)
 ##############################################################
 Config = {
     "board_size": BOARD_SIZE,
-    "path_save": chpts_path,
+    "path_save": chpts_dir,
     'num_epoch': num_epoch,
     "earlyStopping": early_stop,
     "len_input_seq": len_samples,
@@ -68,5 +69,17 @@ optimizer = torch.optim.Adam(
     lr=lr,
 )
 
-# run training
+# training the model
 train_function(model, train_loader, dev_loader, num_epoch, device, optimizer)
+
+
+# testing the model
+chpts_path = "model_1.pt"
+test_model(
+    chpts_path=chpts_dir + chpts_path,
+    data_path=test_path,
+    data_dir=data_dir,
+    model_type="CNN",
+    len_samples=1,
+    device=device,
+    batch_size=batch_size)

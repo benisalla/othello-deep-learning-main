@@ -1,8 +1,8 @@
 import torch
 from torch.utils.data import DataLoader
 from Const import BOARD_SIZE
-from model.networks_mlp_e2305457 import MLP
-from utile import CustomDataset, train_function
+from networks_e2305457 import LSTMs
+from utile import CustomDataset, train_function, test_model
 
 ##############################################################
 #          choosing on which device to run (GPU or CPU)      #
@@ -15,17 +15,18 @@ print('Running on ' + str(device))
 ##############################################################
 lr = 0.001
 num_epoch = 100
-early_stop = 20
+early_stop = 40
 batch_size = 1000
-len_samples = 1
+len_samples = 10
 
 ##############################################################
 #                           data params                      #
 ##############################################################
-data_dir = "../dataset/"
-chpts_path = "../pt_models/model"
-dev_path = "../ds-splits/dev.txt"
-train_path = "../ds-splits/train.txt"
+data_dir = "./dataset/"
+chpts_dir = "./pt_models/model"
+test_path = "./ds-splits/test.txt"
+dev_path = "./ds-splits/dev.txt"
+train_path = "./ds-splits/train.txt"
 
 ##############################################################
 #                       create datasets                      #
@@ -49,13 +50,15 @@ dev_loader = DataLoader(dev_ds, batch_size=batch_size)
 ##############################################################
 Config = {
     "board_size": BOARD_SIZE,
-    "path_save": chpts_path,
+    "path_save": chpts_dir,
     'num_epoch': num_epoch,
     "earlyStopping": early_stop,
     "len_input_seq": len_samples,
+    "LSTM_conf": {},
 }
+Config["LSTM_conf"]["hidden_dim"] = 128
 
-model = MLP(Config).to(device)
+model = LSTMs(Config).to(device)
 
 # let's see number of params in our little model
 print("\nNumber of parameters: %s\n" % model.count_parameters())
@@ -68,5 +71,17 @@ optimizer = torch.optim.Adam(
     lr=lr,
 )
 
-# run training
+# training the model
 train_function(model, train_loader, dev_loader, num_epoch, device, optimizer)
+
+
+# testing the model
+chpts_path = "model_1.pt"
+test_model(
+    chpts_path=chpts_dir + chpts_path,
+    data_path=test_path,
+    data_dir=data_dir,
+    model_type="CNN",
+    len_samples=1,
+    device=device,
+    batch_size=batch_size)
