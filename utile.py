@@ -116,7 +116,7 @@ def evaluate_model(model, data_loader, device):
     return acc
 
 
-def save_model(model, epoch):
+def save_model(model, epoch): 
     torch.save(model, model.path_save + f'/model_{epoch}.pt')
 
 
